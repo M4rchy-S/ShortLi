@@ -1,0 +1,4 @@
+.env
+back/analyt_service/node_modules
+back/geturl/node_modules
+back/shorten/node_modules
