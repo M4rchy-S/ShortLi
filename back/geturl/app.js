@@ -22,7 +22,9 @@ const mongodb = new MongoClient(uri, {
     }
 });
 
-const redis_client = createClient();
+const redis_client = createClient({
+    url: 'redis://redis:6379'
+});
 redis_client.on('error', (err) => console.log('Redis Client Error', err));
 
 app.get('/api/geturl', 
@@ -70,7 +72,7 @@ app.get('/api/geturl',
 
             console.log(`[+] Short URL: ${req.query['short_url']} -> Original URL: ${long_url}`);
 
-            fetch(`http://localhost:3003/service/analytic?short_url=${req.query['short_url']}`);
+            fetch(`http://analytic_service:3003/service/analytic?short_url=${req.query['short_url']}`);
 
             return res.redirect(302, long_url);
         } 
