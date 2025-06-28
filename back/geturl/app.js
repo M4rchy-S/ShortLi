@@ -3,9 +3,18 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const { body, validationResult, query } = require("express-validator");
 const { createClient } = require("redis");
 const dotenv = require('dotenv');
-
+const cors = require('cors');
 
 dotenv.config();
+
+const corsOptions = {
+    // origin: 'http://localhost:5173', // Allow requests from this specific origin
+    origin: '*', // Allow requests from all origins (use with caution in production)
+    // origin: ['http://localhost:3000', 'https://your-frontend-domain.com'], // Allow multiple specific origins
+    // origin: /your-domain\.com$/, // Allow origins matching a regular expression
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    credentials: true, // Allow sending cookies/authorization headers
+  };
 
 const app = express()
 const port = process.env._PORT1
@@ -26,6 +35,8 @@ const redis_client = createClient({
     url: 'redis://redis:6379'
 });
 redis_client.on('error', (err) => console.log('Redis Client Error', err));
+
+app.use(cors(corsOptions));
 
 app.get('/api/geturl', 
     [
@@ -71,10 +82,11 @@ app.get('/api/geturl',
             //  Redirect to longURL
 
             console.log(`[+] Short URL: ${req.query['short_url']} -> Original URL: ${long_url}`);
-
-            fetch(`http://analytic_service:3003/service/analytic?short_url=${req.query['short_url']}`);
-
-            return res.redirect(302, long_url);
+            
+            
+            
+            
+            return res.status(200).json({url: long_url});
         } 
         catch (error) 
         {
@@ -83,6 +95,9 @@ app.get('/api/geturl',
         }
         finally
         {
+            fetch(`http://analytic_service:3003/service/analytic?short_url=${req.query['short_url']}`)
+            .then((data) => {})
+            .catch((error) => {console.log("Error to fetch analytic service")});
             await mongodb.close();
             await redis_client.quit();
         }

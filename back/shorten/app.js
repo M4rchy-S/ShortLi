@@ -2,8 +2,18 @@ const express = require('express')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { body, validationResult, query } = require("express-validator");
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
+
+const corsOptions = {
+    // origin: 'http://localhost:5173', // Allow requests from this specific origin
+    origin: '*', // Allow requests from all origins (use with caution in production)
+    // origin: ['http://localhost:3000', 'https://your-frontend-domain.com'], // Allow multiple specific origins
+    // origin: /your-domain\.com$/, // Allow origins matching a regular expression
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    credentials: true, // Allow sending cookies/authorization headers
+  };
 
 const app = express()
 const port = process.env._PORT2
@@ -12,7 +22,8 @@ const DB_ADMIN = process.env.DB_ADMIN;
 const DB_PASSOWRD = process.env.DB_PASSWORD;
 const uri = `mongodb+srv://${DB_ADMIN}:${DB_PASSOWRD}@notescluster.jddk6by.mongodb.net/?retryWrites=true&w=majority&appName=NotesCluster`;
 
-const expression = "(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?";
+// const expression = "(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?";
+const expression = "(http|https)://\\w+";
 const regex = new RegExp(expression);
 
 const mongodb = new MongoClient(uri, {
@@ -28,12 +39,13 @@ function generateRandomBase62(length)
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     let result = '';
     for (let i = 0; i < length; i++) 
-      result += characters[ Math.floor(Math.random() * characters.length) ];
-
+        result += characters[ Math.floor(Math.random() * characters.length) ];
+    
     return result;
 }
 
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.post('/api/shorten',
     [

@@ -2,8 +2,18 @@ const express = require('express')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { body, validationResult, query } = require("express-validator");
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
+
+const corsOptions = {
+    // origin: 'http://localhost:5173', // Allow requests from this specific origin
+    origin: '*', // Allow requests from all origins (use with caution in production)
+    // origin: ['http://localhost:3000', 'https://your-frontend-domain.com'], // Allow multiple specific origins
+    // origin: /your-domain\.com$/, // Allow origins matching a regular expression
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    credentials: true, // Allow sending cookies/authorization headers
+  };
 
 const app = express()
 const port = process.env._PORT3
@@ -20,9 +30,9 @@ const mongodb = new MongoClient(uri, {
     }
 });
 
+app.use(cors(corsOptions));
 
 const hashmap = new Map();
-
 
 app.get('/service/analytic', 
     [
