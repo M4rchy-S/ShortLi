@@ -13,12 +13,11 @@ function MainPage()
         event.preventDefault();
         const long_url = event.target.long_url.value;
 
-        axios.post('http://localhost:3002/api/shorten', {
+        axios.post('http://shorting_url_service:3002/api/shorten', {
             long_url: long_url
         }).then((resp) => {
 
             console.log(resp);
-            // alert(window.location.origin + '/get/' + resp.data['short_url']);
             setLink(window.location.origin + '/get/' + resp.data['short_url']);
 
         }).catch((error) => {
@@ -43,9 +42,7 @@ function MainPage()
                 {
                     link && 
                     <>
-                        <h3>Your link is</h3>
-                        <a href="{link}">test</a>
-                    
+                        <h3>Your link is {link} </h3>
                     </>
                 }
 

@@ -1,6 +1,11 @@
 version: '3.8'
 
 services:
+  nginx:
+    build: ShortLiFront/.
+    ports:
+      - "80:80"
+
   analytic_service:
     build: back/analyt_service/.
     ports:
