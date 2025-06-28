@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
   analytic_service:
-    build: /back/analyt_service/.
+    build: back/analyt_service/.
     ports:
       - "3003:3003"
   
   redirect_service:
-    build: /back/geturl/.
+    build: back/geturl/.
     ports:
       - "3001:3001"
     depends_on:
       - redis
   
   shorting_url_service:
-    build: /back/shorten/.
+    build: back/shorten/.
     ports:
       - "3002:3002"
 

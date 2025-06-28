@@ -8,9 +8,10 @@ function MainPage()
 {
     const [link, setLink] = useState(null);
 
-    async function handle_form(formData)
+    async function handle_form(event)
     {
-        const long_url = formData.get('long_url');
+        event.preventDefault();
+        const long_url = event.target.long_url.value;
 
         axios.post('http://localhost:3002/api/shorten', {
             long_url: long_url
@@ -34,7 +35,7 @@ function MainPage()
 
             <h2>Shorten a long link</h2>
 
-            <form action={handle_form} className="shorten-form">
+            <form onSubmit={handle_form} className="shorten-form">
                 <h3>Paste your link here</h3>
                 <input className="inputForm" type="text" name="long_url" />
                 <button className="submitButton" type="submit"> Get your link </button>
