@@ -11,17 +11,23 @@ This is URL shortening tool. This service takes http url link and returns random
 ## API Endpoints:
 
 1. POST /api/shorten
+<pre>
 Request:
   {
     long_url: (string)
   }
+  
 Response:
-{
-  short_url: (string)
-}
+  {
+    short_url: (string)
+  }
+</pre>
 
-2. GET /api/geturl?{shorturl}
+
+3. GET /api/geturl?{shorturl}
+<pre>
 Response:
-{
-  long_url: (string)
-}
+  {
+    long_url: (string)
+  }
+</pre>
