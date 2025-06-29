@@ -5,11 +5,15 @@ services:
     build: ShortLiFront/.
     ports:
       - "80:80"
+    networks:
+      - net
 
   analytic_service:
     build: back/analyt_service/.
     ports:
       - "3003:3003"
+    networks:
+      - net
   
   redirect_service:
     build: back/geturl/.
@@ -17,14 +21,24 @@ services:
       - "3001:3001"
     depends_on:
       - redis
+    networks:
+      - net
   
   shorting_url_service:
     build: back/shorten/.
     ports:
       - "3002:3002"
+    networks:
+      - net
 
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge
   

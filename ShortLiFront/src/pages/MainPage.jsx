@@ -13,7 +13,7 @@ function MainPage()
         event.preventDefault();
         const long_url = event.target.long_url.value;
 
-        axios.post('http://shorting_url_service:3002/api/shorten', {
+        axios.post('http://localhost:3002/api/shorten', {
             long_url: long_url
         }).then((resp) => {
 

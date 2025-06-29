@@ -10,7 +10,7 @@ function GetLinkPage(props)
 
     useEffect(() => {
 
-        axios.get(`http://redirect_service:3001/api/geturl?short_url=${shorturl}`).then((resp) => {
+        axios.get(`http://localhost:3001/api/geturl?short_url=${shorturl}`).then((resp) => {
 
             window.location.href = resp.data['url'];
 
