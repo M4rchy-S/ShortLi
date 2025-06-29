@@ -31,3 +31,8 @@ Response:
     long_url: (string)
   }
 </pre>
+
+## Hot to run
+1. Install docker
+2. Enter project folder
+3. Use terminal command: <code>docker-compose up</code>
